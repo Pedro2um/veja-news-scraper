@@ -20,7 +20,7 @@ def parse_args():
     parser.add_argument(
         "--data-path",
         help="Localização do diretório onde os links serão armezados",
-        default=f"{os.environ['PWD']}/data",
+        default=os.path.join(os.getcwd(), "data"),
     )
 
     args = parser.parse_args()

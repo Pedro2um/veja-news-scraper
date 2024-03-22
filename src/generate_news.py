@@ -20,7 +20,7 @@ def parse_args():
     parser.add_argument(
         "--data-path",
         help="Localização do diretório com os links e onde será armezado as notícias",
-        default=f"{os.environ['PWD']}/data",
+        default=os.path.join(os.getcwd(), "data")
     )
 
     args = parser.parse_args()
@@ -52,9 +52,11 @@ def readNews(i, soup, file, log):
 def create_session():
     login_url = "https://veja.abril.com.br/login"
     load_dotenv()  # load the `VEJA_EMAIL` and `VEJA_PASSWORD` enviroment variables
-
+    #print("aqui:", os.environ)
     session = requests.Session()
-
+    os.environ["VEJA_EMAIL"]='anaself@gmail.com'
+    os.environ["VEJA_PASSWORD"]='Neoscopio23'
+    
     # Prepare the login data
     login_data = {
         "email": os.environ["VEJA_EMAIL"],
@@ -97,7 +99,7 @@ def read_year(y: int, sector: str, data_path: str) -> None:
             except Exception as e:
                 print(e)
 
-    with open(root_dir / f"log/log-{y}.txt", "w") as log_file, open(root_dir / f"news/news-{y}.txt", "w") as news:
+    with open(root_dir / f"log/log-{y}.txt", "w") as log_file, open(root_dir / f"news/news-{y}.txt", "w", encoding="utf-8") as news:
         log_file.write("".join(log))
         news.write("".join(file))
     # print("\033[92m Done! \033[0m")
